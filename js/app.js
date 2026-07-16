@@ -174,21 +174,20 @@ const Greeting = {
     return weekday + ', ' + day + ' ' + month + ' ' + year;
   },
 
-  /**
-   * Return the appropriate greeting string for a given hour (0–23).
-   *
-   *  05–11 → "Good Morning"
-   *  12–17 → "Good Afternoon"
-   *  00–04 and 18–23 → "Good Evening"
-   *
-   * @param {number} hour  Integer in the range 0–23
-   * @returns {'Good Morning'|'Good Afternoon'|'Good Evening'}
-   */
-  getGreeting(hour) {
-    if (hour >= 5 && hour <= 11) return 'Good Morning';
-    if (hour >= 12 && hour <= 17) return 'Good Afternoon';
-    return 'Good Evening';
-  },
+/**
+ * Return the appropriate greeting string for a given hour (0–23).
+ *
+ * 05–11 → "Good Morning"
+ * 12–17 → "Good Afternoon"
+ * 18–20 → "Good Evening"
+ * 21–04 → "Good Night"
+ */
+getGreeting(hour) {
+  if (hour >= 5 && hour <= 11) return 'Good Morning';
+  if (hour >= 12 && hour <= 17) return 'Good Afternoon';
+  if (hour >= 18 && hour <= 20) return 'Good Evening';
+  return 'Good Night';
+},
 
   /**
    * Read the stored name, compute the current time/date/greeting,
