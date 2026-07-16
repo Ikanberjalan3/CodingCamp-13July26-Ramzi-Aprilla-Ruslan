@@ -1,0 +1,472 @@
+/* Personal Dashboard — style.css */
+
+/* =========================================================
+   Theming — CSS Custom Properties
+   Requirements: 6.1, 6.4, 6.5
+   ========================================================= */
+
+:root[data-theme="dark"] {
+  --bg-primary:     #0f0f13;
+  --bg-surface:     #1a1a24;
+  --bg-card:        #22222f;
+  --text-primary:   #f0f0f5;
+  --text-secondary: #9999bb;
+  --accent:         #7c6af7;
+  --accent-hover:   #9984f9;
+  --danger:         #e05c5c;
+  --border:         #2e2e42;
+}
+
+:root[data-theme="light"] {
+  --bg-primary:     #f5f5fa;
+  --bg-surface:     #ffffff;
+  --bg-card:        #ebebf5;
+  --text-primary:   #111118;
+  --text-secondary: #55556a;
+  --accent:         #5a4de0;
+  --accent-hover:   #4237c2;
+  --danger:         #c0392b;
+  --border:         #d0d0e0;
+}
+
+/* =========================================================
+   Reset & Base Styles — prevents horizontal overflow
+   Requirements: 7.1
+   ========================================================= */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 1.5rem;
+}
+
+/* =========================================================
+   Responsive Grid Layout
+   Requirements: 7.1, 7.2
+   ========================================================= */
+
+main {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-areas:
+    "greeting  greeting"
+    "timer     todo"
+    "links     links";
+  gap: 1.5rem;
+}
+
+/* Grid area assignments */
+#greeting    { grid-area: greeting; }
+#timer       { grid-area: timer; }
+#todo        { grid-area: todo; }
+#quick-links { grid-area: links; }
+
+/* Links inner grid — fluid card layout */
+#links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 1rem;
+}
+
+/* Single-column stack for narrow viewports */
+@media (max-width: 767px) {
+  main {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "greeting"
+      "timer"
+      "todo"
+      "links";
+  }
+}
+
+/* =========================================================
+   Theme Toggle Button
+   Requirements: 6.2, 7.3, 7.4
+   ========================================================= */
+
+#theme-toggle {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 100;
+  background-color: var(--accent);
+  color: var(--bg-primary);
+  border: none;
+  border-radius: 2rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#theme-toggle:hover {
+  background-color: var(--accent-hover);
+}
+
+/* =========================================================
+   Section / Card Base
+   Requirements: 4.4, 7.3
+   ========================================================= */
+
+main > section {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+/* =========================================================
+   Section Headings — visible to screen readers
+   Requirements: 7.3
+   ========================================================= */
+
+.section-heading {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin: 0 0 1rem;
+}
+
+/* =========================================================
+   Greeting Widget
+   Requirements: 2.1, 2.2
+   ========================================================= */
+
+#greeting {
+  text-align: center;
+}
+
+#time {
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--text-primary);
+  letter-spacing: 0.02em;
+}
+
+#date {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  margin-top: 0.4rem;
+}
+
+#greeting-text {
+  font-size: 1.5rem;
+  font-weight: 500;
+  margin: 0.75rem 0 0;
+  color: var(--text-primary);
+}
+
+#user-name {
+  color: var(--accent);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* =========================================================
+   Focus Timer
+   Requirements: 3.1, 7.3, 7.4
+   ========================================================= */
+
+#timer {
+  text-align: center;
+}
+
+#timer-display {
+  font-size: 4rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+#timer-controls {
+  display: flex;
+  justify-content: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+#timer label {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-right: 0.4rem;
+}
+
+#duration-input {
+  display: inline-block;
+  width: 5rem;
+  padding: 0.35rem 0.5rem;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+/* =========================================================
+   To-Do List
+   Requirements: 4.1, 4.4, 7.3, 7.4
+   ========================================================= */
+
+#todo-add {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+#task-input {
+  flex: 1;
+  padding: 0.45rem 0.75rem;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  font-size: 0.95rem;
+}
+
+#task-input::placeholder {
+  color: var(--text-secondary);
+}
+
+#task-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+#task-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.6rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+#task-list li input[type="checkbox"] {
+  flex-shrink: 0;
+  width: 1.1rem;
+  height: 1.1rem;
+  cursor: pointer;
+  accent-color: var(--accent);
+}
+
+.task-text {
+  flex: 1;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+/* Completed task appearance — Requirement 4.4 */
+.done .task-text {
+  text-decoration: line-through;
+  color: var(--text-secondary);
+}
+
+.task-edit-input {
+  flex: 1;
+  padding: 0.25rem 0.5rem;
+  background-color: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--accent);
+  border-radius: 0.35rem;
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   Quick Links Panel
+   Requirements: 5.7, 7.3, 7.4
+   ========================================================= */
+
+#quick-links > #btn-add-link {
+  margin-bottom: 1rem;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 0.5rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 0.6rem;
+  text-align: center;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  position: relative;
+}
+
+.link-card:hover {
+  border-color: var(--accent);
+  background-color: var(--bg-surface);
+}
+
+.link-card .link-name {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.link-card .btn-delete-link {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.45rem;
+}
+
+/* =========================================================
+   Modals
+   Requirements: 2.7, 5.1, 7.3, 7.4
+   ========================================================= */
+
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.55);
+}
+
+.modal.active {
+  display: flex;
+}
+
+.modal-box {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 2rem;
+  width: min(90vw, 380px);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.modal-box input[type="text"],
+.modal-box input[type="url"] {
+  width: 100%;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  font-size: 0.95rem;
+}
+
+.modal-box input[type="text"]::placeholder,
+.modal-box input[type="url"]::placeholder {
+  color: var(--text-secondary);
+}
+
+/* =========================================================
+   Error Message
+   Requirements: 5.4
+   ========================================================= */
+
+.error-msg {
+  color: var(--danger);
+  font-size: 0.85rem;
+  min-height: 1.2em;
+  display: block;
+}
+
+.error-msg:empty {
+  display: none;
+}
+
+/* =========================================================
+   Buttons — General Reset & Accent Style
+   Requirements: 7.3, 7.4
+   ========================================================= */
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 0.4rem;
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background-color: var(--accent);
+  color: var(--bg-primary);
+  transition: background-color 0.2s ease;
+  line-height: 1.4;
+}
+
+button:hover {
+  background-color: var(--accent-hover);
+}
+
+/* Danger / delete buttons */
+.btn-danger,
+[class*="btn-delete"] {
+  background-color: var(--danger);
+  color: var(--bg-primary);
+}
+
+.btn-danger:hover,
+[class*="btn-delete"]:hover {
+  background-color: color-mix(in srgb, var(--danger) 80%, black);
+}
+
+/* Close button — subtle secondary style */
+.btn-modal-close {
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+  align-self: flex-end;
+}
+
+.btn-modal-close:hover {
+  background-color: var(--border);
+}
+
+/* =========================================================
+   Focus Indicators — all interactive elements
+   Requirements: 7.3, 7.4
+   ========================================================= */
+
+button:focus-visible,
+input:focus-visible,
+a:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* Remove default outline only when focus-visible is used */
+button:focus:not(:focus-visible),
+input:focus:not(:focus-visible),
+a:focus:not(:focus-visible) {
+  outline: none;
+}
